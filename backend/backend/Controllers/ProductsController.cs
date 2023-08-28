@@ -2,6 +2,7 @@
 using backend.Dtos;
 using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
@@ -31,8 +32,30 @@ namespace backend.Controllers
             return Ok("Product Saved Successfully");
         }
         // Read
+        [HttpGet]
+        public async Task<ActionResult<List<ProductEntity>>> GetProducts()
+        {
+            var Products = await _context.Products.ToListAsync();
+
+            return Ok(Products);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<ProductEntity>> GetProductById([FromRoute] long id)
+        {
+            var Product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (Product is null)
+            {
+                return NotFound("Product is not found");
+            }
+
+            return Ok(Product);
+        }
 
         // Update
+
 
         // Delete
     }
