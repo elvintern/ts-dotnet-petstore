@@ -36,23 +36,23 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ProductEntity>>> GetProducts()
         {
-            var Products = await _context.Products.ToListAsync();
+            var products = await _context.Products.ToListAsync();
 
-            return Ok(Products);
+            return Ok(products);
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<ProductEntity>> GetProductById([FromRoute] long id)
         {
-            var Product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
 
-            if (Product is null)
+            if (product is null)
             {
                 return NotFound("Product is not found");
             }
 
-            return Ok(Product);
+            return Ok(product);
         }
 
         // Update
@@ -60,23 +60,37 @@ namespace backend.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateProduct([FromRoute] long id, [FromBody] CreateUpdateProductDto dto)
         {
-            var Product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
 
-            if (Product is null)
+            if (product is null)
             {
                 return NotFound("Product is not found");
             }
 
-            Product.Title = dto.Title;
-            Product.Brand = dto.Brand;
+            product.Title = dto.Title;
+            product.Brand = dto.Brand;
 
             await _context.SaveChangesAsync();
 
             return Ok("Product Updated Successfully");
         }
 
-
-
         // Delete
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteProduct([FromRoute] long id)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product is null)
+            {
+                return NotFound("Product is not found");
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            return Ok("Product Updated Successfully");
+        }
     }
 }
