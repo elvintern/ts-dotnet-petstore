@@ -31,6 +31,7 @@ namespace backend.Controllers
 
             return Ok("Product Saved Successfully");
         }
+
         // Read
         [HttpGet]
         public async Task<ActionResult<List<ProductEntity>>> GetProducts()
@@ -55,6 +56,25 @@ namespace backend.Controllers
         }
 
         // Update
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateProduct([FromRoute] long id, [FromBody] CreateUpdateProductDto dto)
+        {
+            var Product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (Product is null)
+            {
+                return NotFound("Product is not found");
+            }
+
+            Product.Title = dto.Title;
+            Product.Brand = dto.Brand;
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Product Updated Successfully");
+        }
+
 
 
         // Delete
