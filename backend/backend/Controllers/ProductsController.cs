@@ -36,7 +36,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ProductEntity>>> GetProducts()
         {
-            var products = await _context.Products.ToListAsync();
+            var products = await _context.Products.OrderByDescending(p => p.UpdatedAt).ToListAsync();
 
             return Ok(products);
         }
