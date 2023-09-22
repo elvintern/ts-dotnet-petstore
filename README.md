@@ -5,12 +5,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-I built this project to learn more about
-<p>Asp.Net Core (.NET 7.0)</p>
-<p>React 18</p>
-<p>TypeScript</p>
-<p>MS SQL SERVER</p>
-<p>Entity Framework Core</p>
+I built this project to learn more about Asp.Net Core (.NET 7.0), React 18, TypeScript, MS SQL SERVER and Entity Framework Core
 
 ### Built With
 
